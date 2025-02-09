@@ -8,11 +8,15 @@ use Illuminate\Database\Seeder;
 
 class TeacherSeeder extends Seeder
 {
+    private int $teacherCount = 10;
+
     /**
      * Run the database seeds.
      */
     public function run(): void
     {
-        Teacher::factory()->count(fake()->numberBetween(10, 20))->create();
+        if (Teacher::query()->count() < $this->teacherCount) {
+            Teacher::factory()->count(10)->create();
+        }
     }
 }
