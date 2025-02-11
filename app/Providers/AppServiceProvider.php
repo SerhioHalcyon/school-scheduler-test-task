@@ -6,6 +6,7 @@ use App\Repositories\ScheduleRepository;
 use App\Services\Contracts\ScheduleRepositoryContract;
 use App\Services\Contracts\ScheduleServiceContract;
 use App\Services\ScheduleService;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\ServiceProvider;
 
@@ -32,6 +33,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        Model::preventLazyLoading();
     }
 }

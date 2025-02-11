@@ -26,7 +26,7 @@ class ScheduleService implements ScheduleServiceContract
 
         $days = [1, 2, 3, 4, 5];
         $bells = Bell::all();
-        $classes = SchoolClass::all();
+        $classes = SchoolClass::query()->with(['subjects.teachers'])->get();
 
         $assignedTeachers = [];
         $assignedClasses = [];
