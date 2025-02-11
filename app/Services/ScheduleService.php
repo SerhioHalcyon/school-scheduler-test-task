@@ -2,21 +2,25 @@
 
 namespace App\Services;
 
-use App\Models\Bell;
-use App\Models\Schedule;
-use App\Models\SchoolClass;
+use App\Repositories\BellRepository;
 use App\Repositories\ScheduleRepository;
+use App\Repositories\SchoolClassRepository;
+use App\Services\Contracts\BellRepositoryContract;
 use App\Services\Contracts\ScheduleRepositoryContract;
 use App\Services\Contracts\ScheduleServiceContract;
+use App\Services\Contracts\SchoolClassRepositoryContract;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Support\Facades\DB;
 
 class ScheduleService implements ScheduleServiceContract
 {
     public function __construct(
         /** @var ScheduleRepository $scheduleRepository */
         private readonly ScheduleRepositoryContract $scheduleRepository,
+        /** @var BellRepository $bellRepository */
+        private readonly BellRepositoryContract $bellRepository,
+        /** @var SchoolClassRepository $bellRepository */
+        private readonly SchoolClassRepositoryContract $schoolClassRepository,
     ) {
         //
     }
@@ -25,8 +29,8 @@ class ScheduleService implements ScheduleServiceContract
         $this->scheduleRepository->truncate();
 
         $days = [1, 2, 3, 4, 5];
-        $bells = Bell::all();
-        $classes = SchoolClass::query()->with(['subjects.teachers'])->get();
+        $bells = $this->bellRepository->all();
+        $classes = $this->schoolClassRepository->getWithRelation();
 
         $assignedTeachers = [];
         $assignedClasses = [];
