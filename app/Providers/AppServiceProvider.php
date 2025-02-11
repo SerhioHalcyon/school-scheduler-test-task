@@ -2,40 +2,54 @@
 
 namespace App\Providers;
 
-use App\Repositories\BellRepository;
-use App\Repositories\ScheduleRepository;
-use App\Repositories\SchoolClassRepository;
-use App\Services\Contracts\BellRepositoryContract;
-use App\Services\Contracts\ScheduleRepositoryContract;
-use App\Services\Contracts\ScheduleServiceContract;
-use App\Services\Contracts\SchoolClassRepositoryContract;
-use App\Services\ScheduleService;
+use App\Repositories\{
+    BellRepository,
+    ScheduleRepository,
+    SchoolClassRepository
+};
+use App\Services\Contracts\{
+    BellRepositoryContract,
+    ScheduleRepositoryContract,
+    ScheduleServiceContract,
+    SchoolClassRepositoryContract
+};
+use App\Services\{
+    ScheduleService
+};
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
 {
+    private array $services = [
+        ScheduleServiceContract::class => ScheduleService::class,
+    ];
+
+    private array $repositories = [
+        BellRepositoryContract::class => BellRepository::class,
+        ScheduleRepositoryContract::class => ScheduleRepository::class,
+        SchoolClassRepositoryContract::class => SchoolClassRepository::class,
+    ];
+
     /**
      * Register any application services.
      */
     public function register(): void
     {
         // Services
-        $this->app->bind(ScheduleServiceContract::class, function (Application $app) {
-            return $app->make(ScheduleService::class);
-        });
+        foreach ($this->services as $contract => $service) {
+            $this->app->bind($contract, function (Application $app) use ($service) {
+                return $app->make($service);
+            });
+        }
 
         // Repositories
-        $this->app->bind(BellRepositoryContract::class, function (Application $app) {
-            return $app->make(BellRepository::class);
-        });
-        $this->app->bind(ScheduleRepositoryContract::class, function (Application $app) {
-            return $app->make(ScheduleRepository::class);
-        });
-        $this->app->bind(SchoolClassRepositoryContract::class, function (Application $app) {
-            return $app->make(SchoolClassRepository::class);
-        });
+        foreach ($this->repositories as $contract => $repository) {
+            $this->app->bind($contract, function (Application $app) use ($repository) {
+                return $app->make($repository);
+            });
+        }
     }
 
     /**
