@@ -4,8 +4,7 @@ namespace App\Services\Contracts;
 
 use Illuminate\Database\Eloquent\Collection;
 
-interface SchoolClassRepositoryContract extends RepositoryContract
+interface SchoolClassRepositoryContract extends RepositoryContract, HasRelationsContract
 {
-
-    public function getWithRelation(): Collection;
+    //
 }

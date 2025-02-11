@@ -2,13 +2,17 @@
 
 namespace App\Services;
 
-use App\Repositories\BellRepository;
-use App\Repositories\ScheduleRepository;
-use App\Repositories\SchoolClassRepository;
-use App\Services\Contracts\BellRepositoryContract;
-use App\Services\Contracts\ScheduleRepositoryContract;
-use App\Services\Contracts\ScheduleServiceContract;
-use App\Services\Contracts\SchoolClassRepositoryContract;
+use App\Repositories\{
+    BellRepository,
+    ScheduleRepository,
+    SchoolClassRepository
+};
+use App\Services\Contracts\{
+    BellRepositoryContract,
+    ScheduleRepositoryContract,
+    ScheduleServiceContract,
+    SchoolClassRepositoryContract
+};
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 
