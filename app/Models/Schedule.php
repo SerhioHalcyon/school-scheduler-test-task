@@ -18,6 +18,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Schedule extends Model
 {
     use HasFactory;
+
+    protected $table = 'schedule';
     protected $guarded = [];
 
     public function bell(): BelongsTo
@@ -27,7 +29,7 @@ class Schedule extends Model
 
     public function schoolClass(): BelongsTo
     {
-        return $this->belongsTo(SchoolClass::class);
+        return $this->belongsTo(SchoolClass::class, 'class_id', 'id', 'classes');
     }
 
     public function subject(): BelongsTo
