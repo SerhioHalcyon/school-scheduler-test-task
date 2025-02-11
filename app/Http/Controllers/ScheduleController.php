@@ -10,7 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 
-class DataController extends Controller
+class ScheduleController extends Controller
 {
     public function __construct()
     {
