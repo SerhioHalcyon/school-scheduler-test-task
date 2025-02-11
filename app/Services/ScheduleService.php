@@ -5,6 +5,8 @@ namespace App\Services;
 use App\Models\Bell;
 use App\Models\Schedule;
 use App\Models\SchoolClass;
+use App\Repositories\ScheduleRepository;
+use App\Services\Contracts\ScheduleRepositoryContract;
 use App\Services\Contracts\ScheduleServiceContract;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
@@ -12,8 +14,16 @@ use Illuminate\Support\Facades\DB;
 
 class ScheduleService implements ScheduleServiceContract
 {
+    public function __construct(
+        /** @var ScheduleRepository $scheduleRepository */
+        private readonly ScheduleRepositoryContract $scheduleRepository,
+    ) {
+        //
+    }
     public function generateSchedule(): Collection
     {
+        $this->scheduleRepository->truncate();
+
         $days = [1, 2, 3, 4, 5];
         $bells = Bell::all();
         $classes = SchoolClass::all();
@@ -53,7 +63,7 @@ class ScheduleService implements ScheduleServiceContract
                     $assignedTeachers[$day][$bell->id][] = $teacher->id;
                     $assignedClasses[$day][$bell->id][] = $class->id;
 
-                    DB::table('schedule')->insert([
+                    $this->scheduleRepository->create([
                         'day' => $day,
                         'bell_id' => $bell->id,
                         'class_id' => $class->id,
@@ -66,10 +76,7 @@ class ScheduleService implements ScheduleServiceContract
             }
         }
 
-        $schedule = Schedule::with(['bell', 'schoolClass', 'subject', 'teacher'])
-            ->orderBy('day')
-            ->orderBy('bell_id')
-            ->get();
+        $schedule = $this->scheduleRepository->getWithRelation();
 
         $schedule = $schedule->groupBy('day');
 

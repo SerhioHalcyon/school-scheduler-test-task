@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\DB;
 class ScheduleController extends Controller
 {
     public function __construct(
-        /** @var $scheduleService ScheduleService */
+        /** @var ScheduleService $scheduleService */
         private readonly ScheduleServiceContract $scheduleService,
     ) {
         //
@@ -23,7 +23,6 @@ class ScheduleController extends Controller
 
     public function index()
     {
-        DB::table('schedule')->truncate();
 
         $schedule = $this->scheduleService->generateSchedule();
 

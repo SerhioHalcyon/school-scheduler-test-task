@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Repositories\ScheduleRepository;
+use App\Services\Contracts\ScheduleRepositoryContract;
 use App\Services\Contracts\ScheduleServiceContract;
 use App\Services\ScheduleService;
 use Illuminate\Foundation\Application;
@@ -17,6 +19,11 @@ class AppServiceProvider extends ServiceProvider
         // Services
         $this->app->bind(ScheduleServiceContract::class, function (Application $app) {
             return $app->make(ScheduleService::class);
+        });
+
+        // Repositories
+        $this->app->bind(ScheduleRepositoryContract::class, function (Application $app) {
+            return $app->make(ScheduleRepository::class);
         });
     }
 
