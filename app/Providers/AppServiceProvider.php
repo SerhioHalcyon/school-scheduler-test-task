@@ -2,6 +2,9 @@
 
 namespace App\Providers;
 
+use App\Services\Contracts\ScheduleServiceContract;
+use App\Services\ScheduleService;
+use Illuminate\Foundation\Application;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -11,7 +14,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        // Services
+        $this->app->bind(ScheduleServiceContract::class, function (Application $app) {
+            return $app->make(ScheduleService::class);
+        });
     }
 
     /**
