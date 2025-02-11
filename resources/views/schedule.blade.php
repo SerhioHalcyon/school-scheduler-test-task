@@ -29,11 +29,28 @@
         .content h1 {
             text-align: center;
         }
+        .refresh-button {
+            background-color: #4CAF50;
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+        .refresh-button:hover {
+            background-color: #45a049;
+        }
     </style>
 </head>
 <body>
 
 <div class="content">
+    <form method="GET" action="">
+        <button type="submit" class="refresh-button">🔄 Generate schedule</button>
+    </form>
+
     <h1>School Schedule</h1>
 
     @foreach($schedule as $day => $lessons)
