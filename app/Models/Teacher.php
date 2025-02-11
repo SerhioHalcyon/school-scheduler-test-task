@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 /**
  * @property int $id
@@ -19,6 +20,11 @@ class Teacher extends Model
     use HasFactory;
 
     protected $guarded = [];
+
+    public function subjects(): BelongsToMany
+    {
+        return $this->belongsToMany(Subject::class);
+    }
 
     protected function fullName(): Attribute
     {
